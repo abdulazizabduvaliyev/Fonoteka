@@ -1,1 +1,156 @@
 @import "tailwindcss";
+
+html {
+  background: #050507;
+}
+
+body {
+  min-width: 320px;
+  background: #050507;
+}
+
+.audio-stage {
+  --bass: 0;
+  --mid: 0;
+  --high: 0;
+  --energy: 0;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, rgba(255, 61, 0, 0.09), transparent 28%),
+    linear-gradient(240deg, rgba(0, 194, 255, 0.06), transparent 34%),
+    #050507;
+}
+
+.audio-stage::before {
+  content: "";
+  position: absolute;
+  inset: -24%;
+  background:
+    radial-gradient(ellipse at 22% 74%, rgba(255, 61, 0, calc(0.12 + var(--bass) * 0.34)), transparent 42%),
+    radial-gradient(ellipse at 74% 26%, rgba(0, 194, 255, calc(0.08 + var(--high) * 0.24)), transparent 44%),
+    radial-gradient(ellipse at 54% 52%, rgba(237, 20, 59, calc(0.08 + var(--mid) * 0.28)), transparent 48%);
+  filter: blur(48px) saturate(calc(1.05 + var(--energy) * 1.4));
+  opacity: calc(0.64 + var(--energy) * 0.34);
+  transform: scale(calc(1 + var(--bass) * 0.08));
+  transition: opacity 320ms ease, filter 320ms ease;
+}
+
+.audio-aurora,
+.audio-beam,
+.audio-pulse,
+.audio-grid,
+.audio-vignette {
+  position: absolute;
+  inset: 0;
+}
+
+.audio-aurora {
+  inset: -18%;
+  background:
+    conic-gradient(from 128deg at 50% 50%, transparent 0deg, rgba(255, 61, 0, 0.32) 52deg, rgba(237, 20, 59, 0.18) 104deg, transparent 154deg, rgba(0, 194, 255, 0.18) 230deg, transparent 310deg),
+    linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.08) 48%, transparent 70%);
+  filter: blur(62px);
+  mix-blend-mode: screen;
+  opacity: calc(0.28 + var(--energy) * 0.52);
+  transform: scale(calc(1.02 + var(--mid) * 0.08));
+  animation: auroraSweep 14s ease-in-out infinite alternate;
+}
+
+.audio-beam {
+  inset: -8% -18%;
+  background:
+    linear-gradient(100deg, transparent 16%, rgba(255, 61, 0, calc(0.1 + var(--bass) * 0.26)) 42%, rgba(255, 255, 255, calc(0.03 + var(--high) * 0.12)) 50%, rgba(0, 194, 255, calc(0.06 + var(--high) * 0.18)) 60%, transparent 86%);
+  filter: blur(28px);
+  opacity: calc(0.34 + var(--energy) * 0.5);
+  transform: translateY(calc(var(--bass) * -18px)) skewY(-7deg);
+}
+
+.audio-pulse {
+  left: 50%;
+  top: 48%;
+  width: min(86vw, 920px);
+  height: min(86vw, 920px);
+  inset: auto;
+  border: 1px solid rgba(255, 255, 255, calc(0.05 + var(--high) * 0.22));
+  border-radius: 999px;
+  box-shadow:
+    0 0 70px rgba(255, 61, 0, calc(0.1 + var(--bass) * 0.25)),
+    inset 0 0 70px rgba(0, 194, 255, calc(0.04 + var(--high) * 0.18));
+  opacity: calc(0.18 + var(--energy) * 0.54);
+  transform: translate(-50%, -50%) scale(calc(0.92 + var(--bass) * 0.22));
+}
+
+.audio-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: linear-gradient(to bottom, transparent, black 18%, black 78%, transparent);
+  opacity: calc(0.12 + var(--high) * 0.24);
+  transform: perspective(700px) rotateX(58deg) translateY(16%);
+  transform-origin: bottom;
+}
+
+.audio-vignette {
+  background:
+    radial-gradient(ellipse at center, transparent 0%, transparent 44%, rgba(5, 5, 7, 0.7) 100%),
+    linear-gradient(to bottom, rgba(5, 5, 7, 0.12), rgba(5, 5, 7, 0.76));
+}
+
+.audio-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+@keyframes auroraSweep {
+  from {
+    filter: blur(62px) hue-rotate(0deg);
+  }
+  to {
+    filter: blur(72px) hue-rotate(16deg);
+  }
+}
+
+@media (max-width: 767px) {
+  .audio-stage::before {
+    inset: -16% -42%;
+    filter: blur(38px) saturate(calc(1.05 + var(--energy) * 1.1));
+  }
+
+  .audio-aurora {
+    inset: -12% -48%;
+    filter: blur(48px);
+    opacity: calc(0.22 + var(--energy) * 0.4);
+  }
+
+  .audio-beam {
+    inset: 8% -42%;
+    opacity: calc(0.24 + var(--energy) * 0.38);
+  }
+
+  .audio-pulse {
+    top: 56%;
+    width: 112vw;
+    height: 112vw;
+  }
+
+  .audio-grid {
+    background-size: 42px 42px;
+    opacity: calc(0.08 + var(--high) * 0.16);
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .audio-aurora,
+  .audio-stage.is-playing + .wave-field .wave-bar {
+    animation: none;
+  }
+}

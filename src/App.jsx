@@ -225,7 +225,9 @@ const App = () => {
   }, []);
 
   return (
-    <div className="bg-[#0A0A0D] text-white selection:bg-[#FF3D00] min-h-screen flex flex-col font-sans overflow-x-hidden">
+    <div className={`bg-[#0A0A0D] text-white selection:bg-[#FF3D00] min-h-screen flex flex-col font-sans overflow-x-hidden transition-all duration-300 ${
+      isPlaying ? "blur-[0.5px]" : ""
+    }`}>
       <audio
         ref={audioRef}
         crossOrigin="anonymous"
@@ -233,11 +235,22 @@ const App = () => {
         preload="none"
       />
 
-      <div className="fixed inset-0 z-0 flex items-center justify-between w-full h-full pointer-events-none px-2 opacity-30">
+      {/* Playing glow effect */}
+      {isPlaying && (
+        <div className="fixed inset-0 z-0 pointer-events-none animate-pulse">
+          <div className="absolute inset-0 bg-gradient-to-b from-orange-500/5 via-transparent to-red-500/5" />
+        </div>
+      )}
+
+      <div className={`fixed inset-0 z-0 flex items-center justify-between w-full h-full pointer-events-none px-2 transition-all duration-300 ${
+        isPlaying ? "opacity-60 drop-shadow-[0_0_30px_rgba(255,61,0,0.4)]" : "opacity-30"
+      }`}>
         {[...Array(barsCount)].map((_, i) => (
           <div
             key={i}
-            className="wave-bar flex-1 bg-gradient-to-b from-transparent via-[#FF430F] to-transparent"
+            className={`wave-bar flex-1 bg-gradient-to-b from-transparent via-[#FF430F] to-transparent transition-all ${
+              isPlaying ? "drop-shadow-[0_0_8px_rgba(255,61,0,0.6)]" : ""
+            }`}
             style={{ height: "40%", margin: "0 2px", borderRadius: "20px" }}
           />
         ))}
@@ -293,16 +306,48 @@ const App = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-5 flex flex-col items-center justify-center w-full relative">
+        <div className="lg:col-span-5 flex flex-col items-center justify-center w-full gap-8">
           <img
             src="/phones.png"
             alt="App"
             className="w-full max-w-[320px] hidden lg:block md:max-w-[400px] lg:max-w-[480px] h-auto drop-shadow-[0_0_50px_rgba(255,61,0,0.2)]"
           />
-          <div className="absolute -bottom-6 lg:-bottom-10 text-center w-full">
-            <span className="text-[#FF3D00] font-bold tracking-[0.2em] uppercase text-[10px] lg:text-xs animate-pulse bg-[#0A0A0D]/80 py-2 px-4 rounded-full border border-white/5 backdrop-blur-sm">
-              Ilova tez orada chiqadi
-            </span>
+
+          <div className="flex flex-col items-center gap-4 text-center">
+            <h3 className="text-2xl lg:text-3xl font-black leading-tight">
+              Ilovani yuklab oling
+            </h3>
+            <p className="text-sm lg:text-base text-white/70">
+              Radio, musiqa, karaoke – hammasi bir joyda
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 mt-4">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.Abror.fonoteka&hl=ru"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 bg-[#0A0A0D] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1A1A1D] transition-all active:scale-95 shadow-lg border border-white/10"
+              >
+                <img src="/play-market.png" alt="Google Play" className="w-6 h-6" />
+                <div className="flex flex-col items-start">
+                  <span className="text-xs opacity-75">Google Play</span>
+                  <span className="text-sm font-bold">orqali yukla</span>
+                </div>
+              </a>
+
+              <a
+                href="https://apps.apple.com/ru/iphone/search?term=fonoteka"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 bg-[#0A0A0D] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1A1A1D] transition-all active:scale-95 shadow-lg border border-white/10"
+              >
+                <img src="/apple.png" alt="App Store" className="w-6 h-6" />
+                <div className="flex flex-col items-start">
+                  <span className="text-xs opacity-75">App Store</span>
+                  <span className="text-sm font-bold">orqali yukla</span>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </main>
