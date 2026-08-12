@@ -225,9 +225,11 @@ const App = () => {
   }, []);
 
   return (
-    <div className={`bg-[#0A0A0D] text-white selection:bg-[#FF3D00] min-h-screen flex flex-col font-sans overflow-x-hidden transition-all duration-300 ${
-      isPlaying ? "blur-[0.5px]" : ""
-    }`}>
+    <div
+      className={`bg-[#0A0A0D] text-white selection:bg-[#FF3D00] min-h-screen flex flex-col font-sans overflow-x-hidden transition-all duration-300 ${
+        isPlaying ? "blur-[0.5px]" : ""
+      }`}
+    >
       <audio
         ref={audioRef}
         crossOrigin="anonymous"
@@ -242,9 +244,13 @@ const App = () => {
         </div>
       )}
 
-      <div className={`fixed inset-0 z-0 flex items-center justify-between w-full h-full pointer-events-none px-2 transition-all duration-300 ${
-        isPlaying ? "opacity-60 drop-shadow-[0_0_30px_rgba(255,61,0,0.4)]" : "opacity-30"
-      }`}>
+      <div
+        className={`fixed inset-0 z-0 flex items-center justify-between w-full h-full pointer-events-none px-2 transition-all duration-300 ${
+          isPlaying
+            ? "opacity-60 drop-shadow-[0_0_30px_rgba(255,61,0,0.4)]"
+            : "opacity-30"
+        }`}
+      >
         {[...Array(barsCount)].map((_, i) => (
           <div
             key={i}
@@ -323,12 +329,16 @@ const App = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 mt-4">
               <a
-                href="https://play.google.com/store/apps/details?id=com.Abror.fonoteka&hl=ru"
+                href="https://play.google.com/store/apps/details?id=com.digitalx.fonoteka"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 bg-[#0A0A0D] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1A1A1D] transition-all active:scale-95 shadow-lg border border-white/10"
               >
-                <img src="/play-market.png" alt="Google Play" className="w-6 h-6" />
+                <img
+                  src="/play-market.png"
+                  alt="Google Play"
+                  className="w-6 h-6"
+                />
                 <div className="flex flex-col items-start">
                   <span className="text-xs opacity-75">Google Play</span>
                   <span className="text-sm font-bold">orqali yukla</span>
